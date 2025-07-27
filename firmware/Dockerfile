@@ -1,10 +1,6 @@
-FROM debian:12.11 as toolchain
+FROM debian:12.11 AS toolchain
 
-# Non-interactive configuration of tzdata
-ENV DEBIAN_FRONTEND noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN true
-
-
+ENV DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
@@ -37,4 +33,18 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     unzip \
     xz-utils \
     ;
-RUN curl -L -o - http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.27.0.tar.xz | tar -C /usr -Jxf -
+WORKDIR /crosstool-ng-src
+RUN curl -L -o - http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.27.0.tar.xz | tar --strip-components=1 -C /crosstool-ng-src -Jxf - && \
+    ./bootstrap && \
+    ./configure --prefix=/usr/local && \
+    make -j`nproc` && \
+    make install
+
+WORKDIR /avr-toolchain-build
+ENV CT_ALLOW_BUILD_AS_ROOT_SURE=y CT_EXPERIMENTAL=y CT_ALLOW_BUILD_AS_ROOT=y
+RUN --mount=type=bind,source=./docker/avr-gcc.config,target=/avr-toolchain-config/avr-gcc.config \
+    cp /avr-toolchain-config/avr-gcc.config .config && \
+    ct-ng build
+
+FROM debian:12.11 AS build
+COPY --from=toolchain /avr-toolchain /usr/local/
