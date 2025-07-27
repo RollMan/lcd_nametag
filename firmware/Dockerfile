@@ -48,3 +48,17 @@ RUN --mount=type=bind,source=./docker/avr-gcc.config,target=/avr-toolchain-confi
 
 FROM debian:12.11 AS build
 COPY --from=toolchain /avr-toolchain /usr/local/
+ENV DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache && \
+    apt-get update && \
+    apt-get install -y \
+    ninja && \
+    python3 && \
+    ;
+WORKDIR /src
+RUN --mount=type=bind,source=./src/,target=. \
+    meson setup --cross-file cross.ini build/ && \
+    ninja -C build/ -j $(nproc)
