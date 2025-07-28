@@ -65,5 +65,8 @@ RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
 WORKDIR /src
 RUN --mount=type=bind,source=./src/,target=.,rw=true \
     . $HOME/.venv/venv/bin/activate && \
-    meson setup --cross-file cross.ini build/ && \
-    ninja -C build/ -j $(nproc)
+    meson setup --cross-file cross.ini /build/ && \
+    ninja -C /build/ -j $(nproc)
+
+FROM scratch AS final
+COPY --from=build /build /

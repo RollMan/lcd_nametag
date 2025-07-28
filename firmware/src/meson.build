@@ -16,11 +16,13 @@ elf = executable(
     'lcd_nametag.elf',
     src,
     c_args: cflags,
+    link_args: cflags,
     include_directories: include_dir,
 )
 ihex_target = custom_target(
-    'objcopy_ihex',
+    'objcopy_ihex_tgt',
     input: [elf],
     output: [elf.name().replace('.elf', '.hex')],
-    command: [objcopy, '-j', '.text', '-j', '.data', '-O', 'ihex', '@INPUT', '@OUTPUT'],
+    command: [objcopy, '-j', '.text', '-j', '.data', '-O', 'ihex', '@INPUT@', '@OUTPUT@'],
+    build_by_default: true,
 )
