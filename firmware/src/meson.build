@@ -2,13 +2,7 @@ project('lcd_nametag', 'c')
 
 # Prerequisites
 objcopy = find_program('avr-objcopy')
-include_dir = include_directories(
-  '/usr/local/avr/include',
-)
-lib_dir = [
-  '/usr/local/avr/lib',
-]
-cflags = ['-Wall', '-g', '-Os']
+cflags = ['-Wall', '-g', '-Os', '-mmcu=' + host_machine.cpu()]
 
 # Project Build
 src = ['main.c']
@@ -17,12 +11,11 @@ elf = executable(
     src,
     c_args: cflags,
     link_args: cflags,
-    include_directories: include_dir,
 )
 ihex_target = custom_target(
     'objcopy_ihex_tgt',
     input: [elf],
     output: [elf.name().replace('.elf', '.hex')],
-    command: [objcopy, '-j', '.text', '-j', '.data', '-O', 'ihex', '@INPUT@', '@OUTPUT@'],
+    command: [objcopy, '-S', '-j', '.text', '-j', '.data', '-O', 'ihex', '@INPUT@', '@OUTPUT@'],
     build_by_default: true,
 )
