@@ -20,4 +20,12 @@ typedef enum {
  * @param state Decoding state.
  */
 char *decode_n_mcu(char const *const buf, uint16_t const n,
-                   struct jpgdec_state_t state) {}
+                   struct jpgdec_state_t const *const state) {
+    if (state->decode_state == BEFORE_IMAGE_DATA) {
+        // Decode until image data starts.
+    } else if (state->decode_state == INSIDE_IMAGE_DATA) {
+        // Continue decoding data
+    } else {
+        // Validate end of image.
+    }
+}
