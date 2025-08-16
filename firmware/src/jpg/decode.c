@@ -8,7 +8,7 @@
  * @param n The number of MCUs to be decoded.
  * @param state Decoding state.
  */
-char *decode_n_mcu(char const *buf, uint16_t const n,
+char *decode_n_mcu(uint8_t const *buf, uint16_t const n,
                    struct jpgdec_state_t *const state) {
     if (state->decode_state == BEFORE_IMAGE_DATA) {
         // Decode until image data starts.
@@ -17,4 +17,5 @@ char *decode_n_mcu(char const *buf, uint16_t const n,
     } else {
         // Validate end of image.
     }
+    return (char *)0; // TODO
 }

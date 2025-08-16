@@ -46,7 +46,7 @@ RUN --mount=type=bind,source=./docker/avr-gcc.config,target=/avr-toolchain-confi
     cp /avr-toolchain-config/avr-gcc.config .config && \
     ct-ng build
 
-FROM debian:12.11 AS build
+FROM debian:12.11 AS buildenv
 COPY --from=toolchain /avr-toolchain /usr/local/
 ENV DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -62,6 +62,11 @@ RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
     python3 -m venv $HOME/.venv/venv  && \
     . $HOME/.venv/venv/bin/activate && \
     python3 -m pip install meson ninja
+
+FROM debian:12.11 AS build
+COPY --from=buildenv /usr /usr
+COPY --from=buildenv /etc /etc
+COPY --from=buildenv /root /root
 WORKDIR /src
 RUN --mount=type=bind,source=./src/,target=.,rw=true \
     . $HOME/.venv/venv/bin/activate && \

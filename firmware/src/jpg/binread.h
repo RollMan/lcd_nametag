@@ -1,4 +1,6 @@
 #ifndef __BINREAD_H__
+#define __BINREAD_H__
+#include <stdint.h>
 
 typedef enum {
     START_OF_IMAGE = 0xffd8,
@@ -10,7 +12,12 @@ typedef enum {
     END_OF_IMAGE = 0xffd9,
 } marker_mapping;
 
-#define __BINREAD_H__
 #define READ_BYTE(p) (*p++)
-#define READ_WORD(p) (*p++ << 8 | *p++)
+
+static inline uint16_t READ_WORD(uint8_t const ** p){
+    uint16_t high = *(*p)++;
+    uint16_t low = *(*p)++;
+    return (high << 8) | low;
+}
+
 #endif

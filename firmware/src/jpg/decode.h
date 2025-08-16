@@ -1,5 +1,6 @@
 #ifndef __DECODE_H__
 #define __DECODE_H__
+#include <stdint.h>
 /*
  * Enum to represent decoding state.
  * This decoder decodes JPEG by image data section (after start of scan section)
