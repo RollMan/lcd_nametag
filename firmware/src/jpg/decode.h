@@ -1,3 +1,5 @@
+#ifndef __DECODE_H__
+#define __DECODE_H__
 /*
  * Enum to represent decoding state.
  * This decoder decodes JPEG by image data section (after start of scan section)
@@ -12,4 +14,8 @@ typedef enum {
 
 struct jpgdec_state_t {
     decode_state_t decode_state;
+    uint8_t density_units;
+    uint16_t density_width;
+    uint16_t density_height;
 };
+#endif
