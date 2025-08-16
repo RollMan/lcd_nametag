@@ -1,6 +1,6 @@
 #include "decode.h"
 
-#include "header/segments.h"
+#include "header.h"
 
 #include <stdint.h>
 #include <stdio.h> /* TODO: remove after test and get along somehow */
@@ -15,7 +15,10 @@ int decode_n_mcu(uint8_t const *buf, uint16_t const n,
                  struct jpgdec_state_t *const state) {
     if (state->decode_state == BEFORE_IMAGE_DATA) {
         // Decode until image data starts.
-        decode_application_default_header(buf, state);
+        int ret = decode_header(buf, state);
+        if (ret != 0) {
+            return ret;
+        }
     } else if (state->decode_state == INSIDE_IMAGE_DATA) {
         // Continue decoding data
     } else {

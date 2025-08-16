@@ -38,7 +38,12 @@ int main(int argc, char **argv) {
         return 4;
     }
 
-    struct jpgdec_state_t state;
+    struct jpgdec_state_t state = (struct jpgdec_state_t){
+        .decode_state = BEFORE_IMAGE_DATA,
+        .density_units = 0,
+        .density_width = 0,
+        .density_height = 0,
+    };
 
     int ret = decode_n_mcu(buf, 0 /*TODO*/, &state);
     if (ret != 0) {
