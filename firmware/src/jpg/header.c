@@ -1,10 +1,11 @@
-#include <stdint.h>
-#include <stdbool.h>
 #include "header.h"
 
 #include "binread.h"
 #include "decode.h"
 #include "header/segments.h"
+
+#include <stdbool.h>
+#include <stdint.h>
 
 int decode_header(uint8_t const *buf, struct jpgdec_state_t *const state) {
     uint16_t start_of_image = READ_WORD(&buf);

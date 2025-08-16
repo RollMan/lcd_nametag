@@ -19,4 +19,9 @@ struct jpgdec_state_t {
     uint16_t density_width;
     uint16_t density_height;
 };
+
+void print_state(struct jpgdec_state_t const *const state);
+
+int decode_n_mcu(uint8_t const *buf, uint16_t const n,
+                 struct jpgdec_state_t *const state);
 #endif

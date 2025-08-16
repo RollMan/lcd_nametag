@@ -1,18 +1,54 @@
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
+#include "decode.h"
 #include "header.h"
 
-int main(int argc, char** argv){
-    if (argc != 2){
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+size_t get_file_size(FILE *f) {
+    fseek(f, 0, SEEK_END);
+    size_t file_size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    return file_size;
+}
+
+int main(int argc, char **argv) {
+    if (argc != 2) {
         printf("Usage: %s <jpg file path>\n", argv[0]);
         return 1;
     }
-    char* filename = argv[1];
-    FILE* f = fopen(filename, "rb");
-    if (f == NULL){
+    char *filename = argv[1];
+    FILE *f = fopen(filename, "rb");
+    if (f == NULL) {
         printf("Failed to open file: %s\n", strerror(errno));
         return 2;
     }
+
+    size_t file_size = get_file_size(f);
+    char *buf = (char *)malloc(file_size);
+    if (buf == NULL) {
+        printf("Failed to allocate memory: %s\n", strerror(errno));
+        return 3;
+    }
+
+    size_t read = fread(buf, 1, file_size, f);
+    if (read != file_size) {
+        printf("Not all bytes were read.\n");
+        return 4;
+    }
+
+    struct jpgdec_state_t state;
+
+    int ret = decode_n_mcu(buf, 0 /*TODO*/, &state);
+    if (ret != 0) {
+        printf("Failed to decode: %d\n", ret);
+        return 5;
+    }
+
+    print_state(&state);
+
+    free(buf);
+    fclose(f);
     return 0;
 }

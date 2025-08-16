@@ -14,7 +14,7 @@ typedef enum {
 
 #define READ_BYTE(p) (*p++)
 
-static inline uint16_t READ_WORD(uint8_t const ** p){
+static inline uint16_t READ_WORD(uint8_t const **p) {
     uint16_t high = *(*p)++;
     uint16_t low = *(*p)++;
     return (high << 8) | low;

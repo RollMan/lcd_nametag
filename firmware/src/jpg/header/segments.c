@@ -1,6 +1,7 @@
-#include "../decode.h"
-#include "../binread.h"
 #include "segments.h"
+
+#include "../binread.h"
+#include "../decode.h"
 
 int decode_application_default_header(uint8_t const *buf,
                                       struct jpgdec_state_t *const state) {
