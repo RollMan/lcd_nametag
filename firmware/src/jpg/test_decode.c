@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     }
 
     size_t file_size = get_file_size(f);
-    char *buf = (char *)malloc(file_size);
+    uint8_t *buf = (uint8_t *)malloc(file_size);
     if (buf == NULL) {
         printf("Failed to allocate memory: %s\n", strerror(errno));
         return 3;
@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
         .density_height = 0,
     };
 
-    int ret = decode_n_mcu(buf, 0 /*TODO*/, &state);
+    int ret = decode_n_mcu(((uint8_t const **)&buf), 0 /*TODO*/, &state);
     if (ret != 0) {
         printf("Failed to decode: %d\n", ret);
         return 5;

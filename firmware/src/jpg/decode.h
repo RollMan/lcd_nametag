@@ -22,6 +22,6 @@ struct jpgdec_state_t {
 
 void print_state(struct jpgdec_state_t const *const state);
 
-int decode_n_mcu(uint8_t const *buf, uint16_t const n,
+int decode_n_mcu(uint8_t const **buf, uint16_t const n,
                  struct jpgdec_state_t *const state);
 #endif
