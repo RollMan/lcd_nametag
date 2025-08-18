@@ -10,9 +10,10 @@ typedef enum {
     DEFINE_HUFFMAN_TABLE = 0xffc4,
     START_OF_SCAN = 0xffda,
     END_OF_IMAGE = 0xffd9,
+    COMMENT = 0xfffe,
 } marker_mapping;
 
-#define READ_BYTE(p) (*p++)
+#define READ_BYTE(p) (*(p)++)
 
 static inline uint16_t READ_WORD(uint8_t const **p) {
     uint16_t high = *(*p)++;

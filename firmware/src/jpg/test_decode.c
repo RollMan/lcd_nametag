@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
         return 3;
     }
 
+    uint8_t *buf_start = buf;
+
     size_t read = fread(buf, 1, file_size, f);
     if (read != file_size) {
         printf("Not all bytes were read.\n");
@@ -53,7 +55,8 @@ int main(int argc, char **argv) {
 
     print_state(&state);
 
-    free(buf);
+    free(buf_start);
     fclose(f);
+    printf("Success\n");
     return 0;
 }
