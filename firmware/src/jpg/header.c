@@ -19,12 +19,12 @@ int decode_before_sof(uint8_t const **buf, struct jpgdec_state_t *const state) {
         const uint16_t marker = READ_WORD(buf);
         printf("%d\n", *buf - orig);
         switch (marker) {
-        case APPLICATION_DEFAULT_HEADER:
+        case APPLICATION_DEFAULT_HEADER: {
             int ret = decode_application_default_header(buf, state);
             if (ret != 0) {
                 return 1;
             }
-            break;
+        } break;
         case START_OF_SCAN:
             return 0;
         case COMMENT: {
