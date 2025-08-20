@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <stddef.h>
 
 int decode_before_sof(uint8_t const **buf, struct jpgdec_state_t *const state) {
     uint16_t start_of_image = READ_WORD(buf);

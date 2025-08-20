@@ -1,6 +1,7 @@
 #ifndef __BINREAD_H__
 #define __BINREAD_H__
 #include <stdint.h>
+#include <stddef.h>
 
 typedef enum {
     START_OF_IMAGE = 0xffd8,
