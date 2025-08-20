@@ -13,7 +13,15 @@ typedef enum {
     COMMENT = 0xfffe,
 } marker_mapping;
 
-#define READ_BYTE(p) (*(p)++)
+static const size_t SEGMENT_LENGTH_FIELD_SIZE = 2;
+
+static inline void SKIP_SEGLEN(uint8_t const **p, size_t segment_length){
+    *p += segment_length - SEGMENT_LENGTH_FIELD_SIZE;
+}
+
+static inline uint8_t READ_BYTE(uint8_t const **p){
+    return *(*p)++;
+}
 
 static inline uint16_t READ_WORD(uint8_t const **p) {
     uint16_t high = *(*p)++;

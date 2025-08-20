@@ -18,11 +18,13 @@
 // Debugging units on target host (--host) where a binary runs.
     #ifdef EBUG
     // TODO:
-    #define DEBUG_PRINT(...) {}
-    #define DEBUG_PRINTLN(...) {}
+    #define DEBUG_PRINTF(...)
+    #define DEBUG_PRINT(...)
+    #define DEBUG_PRINTLN(...)
     #else //EBUG
-    #define DEBUG_PRINT(...) {}
-    #define DEBUG_PRINTLN(...) {}
+    #define DEBUG_PRINTF(...)
+    #define DEBUG_PRINT(...)
+    #define DEBUG_PRINTLN(...)
     #endif // EBUG
 #endif //__AVR_ARCH__
 
