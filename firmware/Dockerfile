@@ -63,6 +63,17 @@ RUN --mount=type=cache,mode=0755,target=/root/.cache/pip \
     . $HOME/.venv/venv/bin/activate && \
     python3 -m pip install meson ninja
 
+# Run unittests in the build environment.
+FROM debian:12.11 AS test
+COPY --from=buildenv /usr /usr
+COPY --from=buildenv /etc /etc
+COPY --from=buildenv /root /root
+WORKDIR /src
+RUN --mount=type=bind,source=./src/,target=.,rw=true \
+    . $HOME/.venv/venv/bin/activate && \
+    meson setup /unittest/ && \
+    meson test --verbose -C /unittest/
+
 FROM debian:12.11 AS build
 COPY --from=buildenv /usr /usr
 COPY --from=buildenv /etc /etc

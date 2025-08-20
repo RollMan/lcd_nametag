@@ -1,20 +1,23 @@
 project('lcd_nametag', 'c')
 
+common_src = [
+    'jpg/decode.c',
+    'jpg/header.c',
+    'jpg/header/segments.c',
+]
+
 if meson.is_cross_build()
-# Prerequisites
+  # Prerequisites
   objcopy = find_program('avr-objcopy')
   cflags = ['-Wall', '-g', '-Os', '-mmcu=' + host_machine.cpu()]
 
 # Project Build
   src = [
     'main.c',
-    'jpg/decode.c',
-    'jpg/header.c',
-    'jpg/header/segments.c',
   ]
   elf = executable(
       'lcd_nametag.elf',
-      src,
+      src + common_src,
       c_args: cflags,
       link_args: cflags,
   )
@@ -28,6 +31,7 @@ if meson.is_cross_build()
 else
   # Unit tests
   #  JPEG decoder test
-  jpg_decoder_test = executable('jpg_decode_test_bin', 'jpg/test_decode.c')
-  test('jpg_decode_test', jpg_decoder_test)
+  jpg_decode_test_src = ['jpg/test_decode.c']
+  jpg_decoder_test = executable('jpg_decode_test_bin', jpg_decode_test_src + common_src)
+  test('jpg_decode_test', jpg_decoder_test, args: [meson.current_source_dir() / 'jpg/for_test.jpg'])
 endif
