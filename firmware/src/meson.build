@@ -29,7 +29,7 @@ if meson.is_cross_build()
       build_by_default: true,
   )
 else
-  # Unit tests
+  # Platform-independent unit tests to be run in building host.
   #  JPEG decoder test
   jpg_decode_test_src = ['jpg/test_decode.c']
   jpg_decoder_test = executable('jpg_decode_test_bin', jpg_decode_test_src + common_src)
