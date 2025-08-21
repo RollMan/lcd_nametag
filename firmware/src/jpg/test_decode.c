@@ -2,10 +2,10 @@
 #include "header.h"
 
 #include <errno.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stddef.h>
 
 size_t get_file_size(FILE *f) {
     fseek(f, 0, SEEK_END);

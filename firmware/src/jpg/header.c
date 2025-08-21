@@ -5,9 +5,9 @@
 #include "decode.h"
 #include "header/segments.h"
 
+#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <stddef.h>
 
 int decode_before_sof(uint8_t const **buf, struct jpgdec_state_t *const state) {
     uint16_t start_of_image = READ_WORD(buf);
@@ -35,7 +35,8 @@ int decode_before_sof(uint8_t const **buf, struct jpgdec_state_t *const state) {
             return -1;
         default: {
             const uint16_t segment_length = READ_WORD(buf);
-            DEBUG_PRINTF("Untreated marker: %x, seglen: %d\n", marker, segment_length);
+            DEBUG_PRINTF("Untreated marker: %x, seglen: %d\n", marker,
+                         segment_length);
             SKIP_SEGLEN(buf, (size_t)segment_length);
         }
         }

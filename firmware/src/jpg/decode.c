@@ -1,7 +1,7 @@
 #include "decode.h"
 
-#include "header.h"
 #include "../debug.h"
+#include "header.h"
 
 #include <stdint.h>
 #include <stdio.h> /* TODO: remove after test and get along somehow */
@@ -30,7 +30,7 @@ int decode_n_mcu(uint8_t const **buf, uint16_t const n,
 
 void print_state(struct jpgdec_state_t const *const state) {
     DEBUG_PRINTF("decode_state=%d, density_units=%d, density_width=%d, "
-           "density_height=%d\n",
-           state->decode_state, state->density_units, state->density_width,
-           state->density_height);
+                 "density_height=%d\n",
+                 state->decode_state, state->density_units,
+                 state->density_width, state->density_height);
 }
