@@ -1,5 +1,4 @@
-#include "decode.h"
-#include "header.h"
+#include "jpg_image.h"
 
 #include <errno.h>
 #include <stddef.h>
@@ -41,7 +40,7 @@ int main(int argc, char **argv) {
         return 4;
     }
 
-    struct jpgdec_state_t state = (struct jpgdec_state_t){
+    struct jpg_image_t state = (struct jpg_image_t){
         .decode_state = BEFORE_IMAGE_DATA,
         .density_units = 0,
         .density_width = 0,

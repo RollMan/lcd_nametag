@@ -1,5 +1,4 @@
-#ifndef __BINREAD_H__
-#define __BINREAD_H__
+#pragma once
 #include <stddef.h>
 #include <stdint.h>
 
@@ -27,5 +26,3 @@ static inline uint16_t READ_WORD(uint8_t const **p) {
     uint16_t low = *(*p)++;
     return (high << 8) | low;
 }
-
-#endif

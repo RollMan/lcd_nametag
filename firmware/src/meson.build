@@ -1,9 +1,10 @@
 project('lcd_nametag', 'c')
 
 common_src = [
-    'jpg/decode.c',
-    'jpg/header.c',
-    'jpg/header/segments.c',
+    'jpg/internal/header.c',
+    'jpg/internal/header/segments.c',
+    'jpg/internal/memory.c',
+    'jpg/jpg_image.c',
 ]
 
 if meson.is_cross_build()
@@ -32,6 +33,6 @@ else
   # Platform-independent unit tests to be run in building host.
   #  JPEG decoder test
   jpg_decode_test_src = ['jpg/test_decode.c']
-  jpg_decoder_test = executable('jpg_decode_test_bin', jpg_decode_test_src + common_src)
+  jpg_decoder_test = executable('jpg_decode_test_bin', jpg_decode_test_src + common_src, c_args: ['-ggdb'])
   test('jpg_decode_test', jpg_decoder_test, args: [meson.current_source_dir() / 'jpg/for_test.jpg'])
 endif
