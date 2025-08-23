@@ -35,4 +35,20 @@ void print_state(struct jpg_image_t const *const state) {
                  "density_height=%d\n",
                  state->decode_state, state->density_units,
                  state->density_width, state->density_height);
+
+    for (int table_idx = 0; table_idx < state->qt_size; table_idx++) {
+        printf("quantization_table %d (%d):\n", table_idx + 1,
+               state->qt_destination[table_idx]);
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                printf("%02x",
+                       state->quantization_table[table_idx]
+                                                [j + i * MINUMUM_CODING_UNITS]);
+                if (j < MINUMUM_CODING_UNITS - 1) {
+                    printf(" ");
+                }
+            }
+            printf("\n");
+        }
+    }
 }
