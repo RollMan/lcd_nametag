@@ -3,8 +3,7 @@
 #include "../../../debug.h"
 #include "../binread.h"
 #include "../jpg_image.h"
-#include "memory.h"
-#include "quantization_table.h"
+#include "../memory.h"
 
 #include <stdlib.h>
 
@@ -47,7 +46,7 @@ int decode_quantization_table(uint8_t const **buf,
     const uint16_t segment_length = READ_WORD(buf);
     {
         uint8_t destination;
-        uint8_t *const quantization_table;
+        uint8_t *quantization_table;
         int ret =
             new_quantization_table(state, &destination, &quantization_table);
         if (ret != 0) {
