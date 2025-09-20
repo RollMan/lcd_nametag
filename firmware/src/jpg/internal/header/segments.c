@@ -46,17 +46,21 @@ int decode_quantization_table(uint8_t const **buf,
     uint8_t const *const orig = *buf;
     const uint16_t segment_length = READ_WORD(buf);
     {
-        uint8_t *const destination;
-        uint8_t **const quantization_table;
+        uint8_t *destination = malloc(sizeof(uint8_t));
+        uint8_t **quantization_table = malloc(sizeof(uint8_t *));
         int ret =
-            new_quantization_table(state, &destination, &quantization_table);
+            new_quantization_table(state, destination, quantization_table);
         if (ret != 0) {
             return 1;
         }
         *destination = READ_BYTE(buf);
         for (int i = 0; i < MINUMUM_CODING_UNITS; i++) {
-            (*quantization_table)[i] = READ_BYTE(buf);
+            *(*quantization_table + i) = READ_BYTE(buf);
         }
+        free(destination);
+        destination = NULL;
+        free(quantization_table);
+        quantization_table = NULL;
     }
     if (*buf - orig != segment_length) {
         return 1;
