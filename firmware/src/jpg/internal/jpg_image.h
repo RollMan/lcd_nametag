@@ -2,6 +2,7 @@
 #include "../common.h"
 
 #include <stdint.h>
+#include <stddef.h>
 
 static const size_t MINUMUM_CODING_UNITS = 8 * 8;
 
