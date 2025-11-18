@@ -10,7 +10,7 @@ common_src = [
 if meson.is_cross_build()
   # Prerequisites
   objcopy = find_program('avr-objcopy')
-  cflags = ['-Wall', '-g', '-Os', '-mmcu=' + host_machine.cpu()]
+  cflags = ['-Wall', '-Os', '-mmcu=' + host_machine.cpu()]
 
 # Project Build
   src = [
@@ -33,6 +33,6 @@ else
   # Platform-independent unit tests to be run in building host.
   #  JPEG decoder test
   jpg_decode_test_src = ['jpg/test_decode.c']
-  jpg_decoder_test = executable('jpg_decode_test_bin', jpg_decode_test_src + common_src, c_args: ['-ggdb', '-Og'], link_args: ['-Og'] )
+  jpg_decoder_test = executable('jpg_decode_test_bin', jpg_decode_test_src + common_src, c_args: ['-ggdb', '-O0', '-fsanitize=address'], link_args: ['-g', '-O0', '-fsanitize=address'] )
   test('jpg_decode_test', jpg_decoder_test, args: [meson.current_source_dir() / 'jpg/for_test.jpg'])
 endif

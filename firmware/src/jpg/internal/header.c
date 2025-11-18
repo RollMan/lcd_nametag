@@ -55,13 +55,14 @@ int decode_header(uint8_t const **buf, struct jpg_image_t *const state) {
     if (ret != 0) {
         return 1;
     }
+    uint8_t upper = READ_BYTE(buf);
     while (1) {
-        uint8_t const upper = READ_BYTE(buf);
         if (upper == 0xff) {
             uint8_t const lower = READ_BYTE(buf);
             if (lower == 0xd9)
                 break;
         }
+        upper = lower;
     };
     return 0;
 }
